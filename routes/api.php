@@ -46,7 +46,12 @@ Route::group(
         Route::post('/SuperAdmin/StoreSuperAdmin', 'SuperAdminController@create');
         Route::post('/SuperAdmin/UpdateSuperAdmin', 'SuperAdminController@edit');
         Route::delete('/SuperAdmin/Delete', 'SuperAdminController@destroy');
+        
+        // Dashboard
+        Route::get('/Dashborad', 'SuperAdminDashboardController@index');
 
+        //Setting
+        Route::get('/Setting', 'SuperAdminSettingsController@index');
     });
 
 
