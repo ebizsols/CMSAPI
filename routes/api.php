@@ -48,7 +48,7 @@ Route::group(
         Route::delete('/SuperAdmin/Delete', 'SuperAdminController@destroy');
         
         // Dashboard
-        Route::get('/Dashborad', 'SuperAdminDashboardController@index');
+        Route::get('/Dashboard', 'SuperAdminDashboardController@index');
 
         //Setting
         Route::get('/Setting', 'SuperAdminSettingsController@index');
