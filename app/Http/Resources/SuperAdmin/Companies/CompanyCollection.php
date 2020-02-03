@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources\SuperAdmin\Companies;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use App\Http\Resources\BaseResourceCollection;
 use App\Helper\ApiResponseHelper;
 
-class CompanyCollection extends ResourceCollection
+class CompanyCollection extends BaseResourceCollection
 {
     /**
      * Transform the resource collection into an array.

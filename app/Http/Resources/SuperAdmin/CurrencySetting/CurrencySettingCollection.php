@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\User;
+namespace App\Http\Resources\SuperAdmin\CurrencySetting;
 
 use App\Http\Resources\BaseResourceCollection;
 use App\Helper\ApiResponseHelper;
 
-class UserCollection extends BaseResourceCollection
+class CurrencySettingCollection extends BaseResourceCollection
 {
     /**
      * Transform the resource collection into an array.

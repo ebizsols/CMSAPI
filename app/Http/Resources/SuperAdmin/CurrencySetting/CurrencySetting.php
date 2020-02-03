@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Resources\User;
+namespace App\Http\Resources\SuperAdmin\CurrencySetting;
 
-use App\Http\Resources\BaseResourceCollection;
+use App\Http\Resources\BaseResource;
 use App\Helper\ApiResponseHelper;
 
-class UserCollection extends BaseResourceCollection
+class CurrencySetting extends BaseResource
 {
     /**
-     * Transform the resource collection into an array.
+     * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array

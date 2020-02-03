@@ -2,11 +2,11 @@
 
 namespace App\Http\Resources\SuperAdmin\Setting;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use App\Helper\ApiResponseHelper;
 use App\Package;
 
-class GlobalSetting extends JsonResource
+class GlobalSetting extends BaseResource
 {
     /**
      * Transform the resource into an array.

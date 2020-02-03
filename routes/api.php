@@ -52,6 +52,7 @@ Route::group(
 
         //Setting
         Route::get('/Setting', 'SuperAdminSettingsController@index');
+        
     });
 
 

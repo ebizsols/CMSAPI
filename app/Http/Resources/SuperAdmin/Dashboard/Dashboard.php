@@ -2,11 +2,11 @@
 
 namespace App\Http\Resources\SuperAdmin\Dashboard;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use App\Helper\ApiResponseHelper;
 use App\Package;
 
-class Dashboard extends JsonResource
+class Dashboard extends BaseResource
 {
     /**
      * Transform the resource into an array.
