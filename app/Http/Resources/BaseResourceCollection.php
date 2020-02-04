@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\User;
+namespace App\Http\Resources;
 
-use App\Http\Resources\BaseResourceCollection;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use App\Helper\ApiResponseHelper;
 
-class UserCollection extends BaseResourceCollection
+class BaseResourceCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.

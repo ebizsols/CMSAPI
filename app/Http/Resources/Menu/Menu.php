@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources\Menu;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use App\Helper\ApiResponseHelper;
 
-class Menu extends JsonResource
+class Menu extends BaseResource
 {
     /**
      * Transform the resource into an array.

@@ -2,13 +2,11 @@
 
 namespace App\Http\Resources\SuperAdmin\Companies;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use App\Helper\ApiResponseHelper;
 use App\Http\Resources\SuperAdmin\Packages\Package as PackageResources;
-use App\Http\Resources\SuperAdmin\Packages\PackageCollection;
-use App\Package;
 
-class Company extends JsonResource
+class Company extends BaseResource
 {
     /**
      * Transform the resource into an array.

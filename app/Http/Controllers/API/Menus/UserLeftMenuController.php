@@ -103,10 +103,11 @@ class UserLeftMenuController extends Controller
     public function superAdminLeftMenu()
     {
         $menuList = array(
-            array('title' => 'Dashboard', 'route' => '/'),
-            array('title' => 'Package', 'route' => '/'),
-            array('title' => 'Companies', 'route' => '/'),
-            array('title' => 'Setting', 'route' => '/')
+            array('title' => 'Dashboard', 'route' => '/super-admin/Dashboard'),
+            array('title' => 'Package', 'route' => '/super-admin/Packages/'),
+            array('title' => 'Companies', 'route' => '/super-admin/Companies/'),
+            array('title' => 'Super Admin', 'route' => '/super-admin/SuperAdmin/'),
+            array('title' => 'Setting', 'route' => '/super-admin/Setting')
         );
 
         $menuItems = array();

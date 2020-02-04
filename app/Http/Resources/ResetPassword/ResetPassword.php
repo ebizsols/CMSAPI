@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources\ResetPassword;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use App\Helper\ApiResponseHelper;
 
-class ResetPassword extends JsonResource
+class ResetPassword extends BaseResource
 {
     /**
      * Transform the resource into an array.

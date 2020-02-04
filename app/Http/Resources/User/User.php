@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources\User;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use App\Helper\ApiResponseHelper;
 
-class User extends JsonResource
+class User extends BaseResource
 {
     /**
      * Transform the resource into an array.

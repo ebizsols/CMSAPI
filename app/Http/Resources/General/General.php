@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources\General;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use App\Helper\ApiResponseHelper;
 
-class General extends JsonResource
+class General extends BaseResource
 {
     /**
      * Transform the resource into an array.

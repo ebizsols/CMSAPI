@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources\SuperAdmin\SuperAdmin;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BaseResource;
 use App\Helper\ApiResponseHelper;
 
-class SuperAdmin extends JsonResource
+class SuperAdmin extends BaseResource
 {
     /**
      * Transform the resource into an array.

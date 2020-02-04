@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources\SuperAdmin\Dashboard;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use App\Http\Resources\BaseResourceCollection;
 use App\Helper\ApiResponseHelper;
 
-class DashboardCollection extends ResourceCollection
+class DashboardCollection extends BaseResourceCollection
 {
     /**
      * Transform the resource collection into an array.
