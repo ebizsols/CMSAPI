@@ -21,12 +21,11 @@ class UpdateRequest extends SuperAdminBaseRequest
     public function rules()
     {
         return [
-            'companyId' => 'required|exists:companies,id',
-            "companyName" => 'required|unique:companies,company_name,'.$this->get('companyId'),
-            "companyEmail" => 'required|email|unique:companies,company_email,'.$this->get('companyId'),
-            'companyPhone' => 'required',
-            'address' => 'required',
-            'status' => 'required'
+            'id' => 'required|exists:global_currencies,id',
+            'currencyName' => 'required',
+            'currencySymbol' => 'required',
+            'usdPrice' => 'required_if:isCryptocurrency,yes',
+            'currencyCode' => 'required'
         ];
     }
 
@@ -57,7 +56,7 @@ class UpdateRequest extends SuperAdminBaseRequest
         }
 
         $response = ApiResponseHelper::responseArray($code, $message);
-        $responseObj = new CurrencySetting($data);
+        $responseObj = new CurrencyResource($data);
 
         return $responseObj->additional($response);
     }

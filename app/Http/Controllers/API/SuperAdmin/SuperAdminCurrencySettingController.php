@@ -1,14 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\SuperAdmin\API\SuperAdmin;
+namespace App\Http\Controllers\API\SuperAdmin;
 
 use App\GlobalCurrency;
 use App\GlobalSetting;
+use App\Helper\ApiResponseHelper;
 use App\Helper\Reply;
-use App\Http\Requests\Currency\StoreCurrency;
 use App\Http\Requests\Currency\StoreCurrencyExchangeKey;
 use App\Traits\GlobalCurrencyExchange;
 use GuzzleHttp\Client;
+
+Use App\Http\Requests\API\SuperAdmin\CurrencySetting\DeleteRequest;
+Use App\Http\Requests\API\SuperAdmin\CurrencySetting\ListingRequest;
+Use App\Http\Requests\API\SuperAdmin\CurrencySetting\StoreRequest;
+Use App\Http\Requests\API\SuperAdmin\CurrencySetting\UpdateRequest;
 
 class SuperAdminCurrencySettingController extends SuperAdminBaseController
 {
@@ -19,37 +24,47 @@ class SuperAdminCurrencySettingController extends SuperAdminBaseController
         parent::__construct();
     }
 
-    public function index()
+    /**
+     * @param ListingRequest $request
+     * @return \App\Http\Resources\General\General|null
+     */
+    public function index(ListingRequest $request)
     {
+        if($request->errors()){
+            return $request->errors();
+        }
+
         $this->currencies = GlobalCurrency::all();
-        return view('super-admin.currency-settings.index', $this->data);
+
+        return $request->successResponse($this->currencies);
     }
 
-    public function create()
+    /**
+     * @param StoreRequest $request
+     * @return \App\Http\Resources\General\General
+     */
+    public function store(StoreRequest $request)
     {
-        return view('super-admin.currency-settings.create', $this->data);
-    }
-
-    public function edit($id)
-    {
-        $this->currency = GlobalCurrency::findOrFail($id);
-        return view('super-admin.currency-settings.edit', $this->data);
-    }
-
-    public function store(StoreCurrency $request)
-    {
+        if($request->errors() != null){
+            return $request->errors();
+        }
 
         $currency = new GlobalCurrency();
-        $currency->currency_name = $request->currency_name;
-        $currency->currency_symbol = $request->currency_symbol;
-        $currency->currency_code = $request->currency_code;
-        $currency->usd_price = $request->usd_price;
-        $currency->is_cryptocurrency = $request->is_cryptocurrency;
+
+        $currency->currency_name = $request->currencyName;
+
+        $currency->currency_symbol = $request->currencySymbol;
+
+        $currency->currency_code = $request->currencyCode;
+
+        $currency->usd_price = $request->usdPrice;
+
+        $currency->is_cryptocurrency = $request->isCryptocurrency;
 
         $currencyApiKey = GlobalSetting::first()->currency_converter_key;
         $currencyApiKey = ($currencyApiKey) ? $currencyApiKey : env('CURRENCY_CONVERTER_KEY');
 
-        if ($request->is_cryptocurrency == 'no') {
+        /*if ($request->isCryptocurrency == 'no') {
             // get exchange rate
             $client = new Client();
             $res = $client->request('GET', 'https://free.currencyconverterapi.com/api/v6/convert?q='. $this->global->currency->currency_code . '_' . $currency->currency_code.'&compact=ultra&apiKey='.$currencyApiKey, ['verify' => false]);
@@ -71,7 +86,7 @@ class SuperAdminCurrencySettingController extends SuperAdminBaseController
                 $usdExchangePrice = $conversionRate[strtoupper($this->global->currency->currency_code) . '_USD'];
                 $currency->exchange_rate = ceil(($currency->usd_price / $usdExchangePrice));
             }
-        }
+        }*/
 
         $currency->save();
 
@@ -81,24 +96,28 @@ class SuperAdminCurrencySettingController extends SuperAdminBaseController
             //throw $th;
         }
 
-        return Reply::redirect(route('super-admin.currency.edit', $currency->id), __('messages.currencyAdded'));
+        return $request->successResponse($currency);
     }
 
-    public function update(StoreCurrency $request, $id)
+    public function update(UpdateRequest $request)
     {
+        if($request->errors() != null){
+            return $request->errors();
+        }
+        $id = $request->id;
         $currency = GlobalCurrency::findOrFail($id);
-        $currency->currency_name = $request->currency_name;
-        $currency->currency_symbol = $request->currency_symbol;
-        $currency->currency_code = $request->currency_code;
-        $currency->exchange_rate = $request->exchange_rate;
+        $currency->currency_name = $request->currencyName;
+        $currency->currency_symbol = $request->currencySymbol;
+        $currency->currency_code = $request->currencyCode;
+        $currency->exchange_rate = $request->exchangeRate;
 
         $currencyApiKey = GlobalSetting::first()->currency_converter_key;
         $currencyApiKey = ($currencyApiKey) ? $currencyApiKey : env('CURRENCY_CONVERTER_KEY');
 
-        $currency->usd_price = $request->usd_price;
-        $currency->is_cryptocurrency = $request->is_cryptocurrency;
+        $currency->usd_price = $request->usdPrice;
+        $currency->is_cryptocurrency = $request->isCryptocurrency;
 
-        if ($request->is_cryptocurrency == 'no') {
+        /*if ($request->is_cryptocurrency == 'no') {
             // get exchange rate
             $client = new Client();
             $res = $client->request('GET', 'https://free.currencyconverterapi.com/api/v6/convert?q='. $this->global->currency->currency_code . '_' . $currency->currency_code.'&compact=ultra&apiKey='.$currencyApiKey, ['verify' => false]);
@@ -120,7 +139,7 @@ class SuperAdminCurrencySettingController extends SuperAdminBaseController
                 $usdExchangePrice = $conversionRate[strtoupper($this->global->currency->currency_code) . '_USD'];
                 $currency->exchange_rate = $usdExchangePrice;
             }
-        }
+        }*/
 
         $currency->save();
 
@@ -131,18 +150,39 @@ class SuperAdminCurrencySettingController extends SuperAdminBaseController
             //throw $th;
         }
 
-
-        return Reply::success(__('messages.currencyUpdated'));
+        return $request->successResponse($currency);
     }
 
-    public function destroy($id)
+
+    public function destroy(DeleteRequest $request)
     {
-        if ($this->global->currency_id == $id) {
-            return Reply::error(__('modules.currencySettings.cantDeleteDefault'));
+        if($request->errors()){
+            return $request->errors();
         }
+
+        $id = $request->id;
+
+        if ($this->global->currency_id == $id) {
+
+            return $request->errorResponse(__('modules.currencySettings.cantDeleteDefault'), ApiResponseHelper::ERR_GENERIC_MSG, ApiResponseHelper::ERR_GENERIC_CODE );
+        }
+
         GlobalCurrency::destroy($id);
-        return Reply::success(__('messages.currencyDeleted'));
+
+        return $request->successResponse(array(), ApiResponseHelper::DELETE_MSG,  ApiResponseHelper::DELETE_CODE);
     }
+
+
+
+    public function edit($id)
+    {
+        $this->currency = GlobalCurrency::findOrFail($id);
+        return view('super-admin.currency-settings.edit', $this->data);
+    }
+
+
+
+
 
     public function exchangeRate($currency)
     {

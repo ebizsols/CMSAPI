@@ -21,7 +21,7 @@ class DeleteRequest extends SuperAdminBaseRequest
     public function rules()
     {
         return [
-            'id' => 'required|exists:companies,id',
+            'id' => 'required|exists:global_currencies,id',
         ];
     }
 
