@@ -49,6 +49,7 @@ Route::group(
 
         //currency API
         Route::get('/CurrencySettings', 'SuperAdminCurrencySettingController@index');
+        Route::post('/CurrencySettings/CreateEditInfo', 'SuperAdminCurrencySettingController@createEditData');
         Route::post('/CurrencySetting/Store', 'SuperAdminCurrencySettingController@store');
         Route::post('/CurrencySetting/Update', 'SuperAdminCurrencySettingController@update');
         Route::delete('/CurrencySetting/Delete', 'SuperAdminCurrencySettingController@destroy');

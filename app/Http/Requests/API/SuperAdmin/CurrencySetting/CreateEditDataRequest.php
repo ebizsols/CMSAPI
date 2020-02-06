@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests\API\SuperAdmin\Companies;
+namespace App\Http\Requests\API\SuperAdmin\CurrencySetting;
 
 use App\Helper\ApiResponseHelper;
-use App\Http\Resources\SuperAdmin\Companies\Company as CompanyResource;
+use App\Http\Resources\SuperAdmin\CurrencySetting\CurrencySetting as CurrencyResource;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
 use App\Http\Requests\API\SuperAdmin\SuperAdminBaseRequest;
@@ -21,7 +21,7 @@ class CreateEditDataRequest extends SuperAdminBaseRequest
     public function rules()
     {
         return [
-            'id' => 'exists:companies,id',
+            'id' => 'exists:global_currencies,id',
         ];
     }
 
@@ -52,7 +52,7 @@ class CreateEditDataRequest extends SuperAdminBaseRequest
         }
 
         $response = ApiResponseHelper::responseArray($code, $message);
-        $responseObj = new CompanyResource($data);
+        $responseObj = new CurrencyResource($data);
 
         return $responseObj->additional($response);
     }

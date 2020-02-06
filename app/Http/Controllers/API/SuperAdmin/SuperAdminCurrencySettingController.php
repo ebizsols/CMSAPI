@@ -14,6 +14,7 @@ Use App\Http\Requests\API\SuperAdmin\CurrencySetting\DeleteRequest;
 Use App\Http\Requests\API\SuperAdmin\CurrencySetting\ListingRequest;
 Use App\Http\Requests\API\SuperAdmin\CurrencySetting\StoreRequest;
 Use App\Http\Requests\API\SuperAdmin\CurrencySetting\UpdateRequest;
+Use App\Http\Requests\API\SuperAdmin\CurrencySetting\CreateEditDataRequest;
 
 class SuperAdminCurrencySettingController extends SuperAdminBaseController
 {
@@ -172,17 +173,22 @@ class SuperAdminCurrencySettingController extends SuperAdminBaseController
         return $request->successResponse(array(), ApiResponseHelper::DELETE_MSG,  ApiResponseHelper::DELETE_CODE);
     }
 
-
-
-    public function edit($id)
+    public function createEditData(CreateEditDataRequest $request)
     {
-        $this->currency = GlobalCurrency::findOrFail($id);
-        return view('super-admin.currency-settings.edit', $this->data);
+        if($request->errors() != null ){
+            return $request->errors() ;
+        }
+
+        $data = array();
+
+        if($request->id != ''){
+            $id = $request->id;
+
+            $data['currency'] =  GlobalCurrency::findOrFail($id);
+        }
+
+        return $request->successResponse($data);
     }
-
-
-
-
 
     public function exchangeRate($currency)
     {
