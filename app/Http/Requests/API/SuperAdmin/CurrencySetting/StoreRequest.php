@@ -21,16 +21,10 @@ class StoreRequest extends SuperAdminBaseRequest
     public function rules()
     {
         return [
-            "companyName" => "required|unique:companies,company_name",
-            "companyEmail" => "required|email|unique:companies,company_email",
-            "companyPhone" => "required",
-            "address" => "required",
-            "status" => "required",
-            'email' => 'required|unique:users',
-            'password' => 'required|min:6',
-            'timezone' => "required",
-            'locale' => "required",
-            'currencyId' => "required"
+            'currencyName' => 'required',
+            'currencySymbol' => 'required',
+            'usdPrice' => 'required_if:isCryptocurrency,yes',
+            'currencyCode' => 'required'
         ];
     }
 
@@ -61,7 +55,7 @@ class StoreRequest extends SuperAdminBaseRequest
         }
 
         $response = ApiResponseHelper::responseArray($code, $message);
-        $responseObj = new CurrencySetting($data);
+        $responseObj = new CurrencyResource($data);
 
         return $responseObj->additional($response);
     }

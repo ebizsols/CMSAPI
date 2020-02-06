@@ -44,11 +44,11 @@ class CreateEditDataRequest extends SuperAdminBaseRequest
     public function successResponse($data = array(),  $message = '', $code = '')
     {
         if($message == ''){
-            $message = ApiResponseHelper::DELETE_MSG;
+            $message = ApiResponseHelper::SUCCESS_MSG;
         }
 
         if($code == ''){
-            $code = ApiResponseHelper::DELETE_CODE;
+            $code = ApiResponseHelper::SUCCESS_CODE;
         }
 
         $response = ApiResponseHelper::responseArray($code, $message);

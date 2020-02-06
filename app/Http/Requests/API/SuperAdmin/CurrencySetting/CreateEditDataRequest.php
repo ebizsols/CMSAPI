@@ -8,7 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
 use App\Http\Requests\API\SuperAdmin\SuperAdminBaseRequest;
 
-class UpdateRequest extends SuperAdminBaseRequest
+class CreateEditDataRequest extends SuperAdminBaseRequest
 {
 
     public $errors = null;
@@ -21,11 +21,7 @@ class UpdateRequest extends SuperAdminBaseRequest
     public function rules()
     {
         return [
-            'id' => 'required|exists:global_currencies,id',
-            'currencyName' => 'required',
-            'currencySymbol' => 'required',
-            'usdPrice' => 'required_if:isCryptocurrency,yes',
-            'currencyCode' => 'required'
+            'id' => 'exists:global_currencies,id',
         ];
     }
 
@@ -60,4 +56,5 @@ class UpdateRequest extends SuperAdminBaseRequest
 
         return $responseObj->additional($response);
     }
+
 }

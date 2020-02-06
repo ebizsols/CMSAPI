@@ -21,7 +21,7 @@ class ListingRequest extends SuperAdminBaseRequest
     public function rules()
     {
         return [
-            'id' => 'exists:companies,id',
+            'id' => 'exists:global_currencies,id',
         ];
     }
 
