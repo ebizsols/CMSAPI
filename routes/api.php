@@ -54,7 +54,14 @@ Route::group(
         Route::post('/CurrencySetting/Update', 'SuperAdminCurrencySettingController@update');
         Route::delete('/CurrencySetting/Delete', 'SuperAdminCurrencySettingController@destroy');
 
-        
+        //payment setting Api
+        Route::get('/OfflinePaymentSettings', 'OfflinePaymentSettingController@index');
+        Route::post('/OfflinePaymentSetting/CreateEditInfo', 'OfflinePaymentSettingController@createEditData');
+        Route::post('/OfflinePaymentSetting/Store', 'OfflinePaymentSettingController@store');
+        Route::post('/OfflinePaymentSetting/Update', 'OfflinePaymentSettingController@update');
+        Route::delete('/OfflinePaymentSetting/Delete', 'OfflinePaymentSettingController@destroy');
+
+
         // Dashboard
         Route::get('/Dashboard', 'SuperAdminDashboardController@index');
 
