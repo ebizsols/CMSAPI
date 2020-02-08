@@ -67,7 +67,14 @@ Route::group(
 
         //Setting
         Route::get('/Setting', 'SuperAdminSettingsController@index');
+        Route::post('/UpdateGlobalSetting', 'SuperAdminSettingsController@update');
 
+     //Email Setting
+     Route::get('/EmailSetting', 'SuperAdminEmailSettingsController@index');
+     //Push Notification Setting
+     Route::get('/PushNotification', 'SuperAdminPushSettingsController@index');
+     Route::post('/PushNotificationUpdate', 'SuperAdminPushSettingsController@update');
+     
     });
 
 
