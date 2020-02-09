@@ -27,13 +27,13 @@ Route::group(
 
     Route::middleware('auth:api', 'throttle:rate_limit,1')->group(function () {
 
-        //Package API
+        //Package APIs
         Route::get('/Packages', 'SuperAdminPackageController@index');
         Route::post('/Package/CreatePackage', 'SuperAdminPackageController@store');
         Route::post('/Package/UpdatePackage', 'SuperAdminPackageController@update');
         Route::delete('/Package/Delete', 'SuperAdminPackageController@destroy');
 
-        //Company API
+        //Company APIs
         Route::get('/Companies', 'SuperAdminCompanyController@index');
         Route::post('/Company/CreateEditInfo', 'SuperAdminCompanyController@createEditData');
         Route::post('/Company/CreateCompany', 'SuperAdminCompanyController@store');
@@ -41,26 +41,33 @@ Route::group(
         Route::post('/Company/AssignPackage', 'SuperAdminCompanyController@updatePackage');
         Route::delete('/Company/Delete', 'SuperAdminCompanyController@destroy');
 
-        //SuperAdmin API
+        //SuperAdmin APIs
         Route::get('/SuperAdmin', 'SuperAdminController@index');
         Route::post('/SuperAdmin/StoreSuperAdmin', 'SuperAdminController@create');
         Route::post('/SuperAdmin/UpdateSuperAdmin', 'SuperAdminController@edit');
         Route::delete('/SuperAdmin/Delete', 'SuperAdminController@destroy');
 
-        //currency API
+        //currency APIs
         Route::get('/CurrencySettings', 'SuperAdminCurrencySettingController@index');
         Route::post('/CurrencySettings/CreateEditInfo', 'SuperAdminCurrencySettingController@createEditData');
         Route::post('/CurrencySetting/Store', 'SuperAdminCurrencySettingController@store');
         Route::post('/CurrencySetting/Update', 'SuperAdminCurrencySettingController@update');
         Route::delete('/CurrencySetting/Delete', 'SuperAdminCurrencySettingController@destroy');
 
-        //payment setting Api
+        //Offline payment setting APIs
         Route::get('/OfflinePaymentSettings', 'OfflinePaymentSettingController@index');
         Route::post('/OfflinePaymentSetting/CreateEditInfo', 'OfflinePaymentSettingController@createEditData');
         Route::post('/OfflinePaymentSetting/Store', 'OfflinePaymentSettingController@store');
         Route::post('/OfflinePaymentSetting/Update', 'OfflinePaymentSettingController@update');
         Route::delete('/OfflinePaymentSetting/Delete', 'OfflinePaymentSettingController@destroy');
 
+        //Online payment setting APIs
+        Route::post('/OnlinePaymentSetting/CreateEditInfo', 'SuperAdminOnlinePaymentSettingsController@index');
+        Route::post('/OnlinePaymentSetting/Update', 'SuperAdminOnlinePaymentSettingsController@update');
+        Route::post('/OnlinePaymentSetting/ChangePaymentMethod', 'SuperAdminOnlinePaymentSettingsController@changePaymentMethod');
+
+        // Invoice
+        Route::get('/Invoices', 'SuperAdminInvoiceController@index');
 
         // Dashboard
         Route::get('/Dashboard', 'SuperAdminDashboardController@index');
@@ -69,12 +76,13 @@ Route::group(
         Route::get('/Setting', 'SuperAdminSettingsController@index');
         Route::post('/UpdateGlobalSetting', 'SuperAdminSettingsController@update');
 
-     //Email Setting
-     Route::get('/EmailSetting', 'SuperAdminEmailSettingsController@index');
-     //Push Notification Setting
-     Route::get('/PushNotification', 'SuperAdminPushSettingsController@index');
-     Route::post('/PushNotificationUpdate', 'SuperAdminPushSettingsController@update');
-     
+        //Email Setting
+        Route::get('/EmailSetting', 'SuperAdminEmailSettingsController@index');
+
+        //Push Notification Setting
+        Route::get('/PushNotification', 'SuperAdminPushSettingsController@index');
+        Route::post('/PushNotificationUpdate', 'SuperAdminPushSettingsController@update');
+
     });
 
 
