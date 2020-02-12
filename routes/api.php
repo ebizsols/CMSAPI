@@ -69,7 +69,11 @@ Route::group(
         // Invoice
         Route::get('/Invoices', 'SuperAdminInvoiceController@index');
 
+        // Dashboard
         Route::get('/Dashboard', 'SuperAdminDashboardController@index');
+
+        //profile
+        Route::post('/ProfileUpdate', 'SuperAdminProfileController@update');
 
         //Setting
         Route::get('/Setting', 'SuperAdminSettingsController@index');
@@ -78,14 +82,14 @@ Route::group(
         //Email Setting
         Route::get('/EmailSetting', 'SuperAdminEmailSettingsController@index');
         Route::post('/EmailSettingUpdate', 'SuperAdminEmailSettingsController@update');
-        
+
         //Push Notification Setting
         Route::get('/PushNotification', 'SuperAdminPushSettingsController@index');
         Route::post('/PushNotificationUpdate', 'SuperAdminPushSettingsController@update');
-        
+
         //Language Setting
         Route::get('/AllLanguages','SuperAdminLanguageSettingsController@index');
-     
+
     });
 
 
@@ -173,9 +177,3 @@ Route::group(
         }
     );*/
 });
-
-
-
-
-
-
