@@ -39,20 +39,26 @@ class SuperAdminSettingsController extends SuperAdminBaseController
         return $request->successResponse($data);
     }
 
-    public function update(UpdateGlobalSettings $request, $id)
+   public function update(UpdateGlobalSettingsRequest $request)
     {
+         if($request->errors() != null){
+            return $request->errors();
+        }
+        
+        $id=$request->id;
         $setting = GlobalSetting::findOrFail($id);
+        
         $oldCurrencyID = $setting->currency_id;
-        $newCurrencyID = $request->input('currency_id');
-        $setting->company_name = $request->input('company_name');
-        $setting->company_email = $request->input('company_email');
-        $setting->company_phone = $request->input('company_phone');
-        $setting->website = $request->input('website');
-        $setting->address = $request->input('address');
-        $setting->currency_id = $request->input('currency_id');
-        $setting->timezone = $request->input('timezone');
-        $setting->locale = $request->input('locale');
-        $setting->week_start = $request->input('week_start');
+        $newCurrencyID = $request->currency_id;
+        $setting->company_name = $request->company_name;
+        $setting->company_email = $request->company_email;
+        $setting->company_phone = $request->company_phone;
+        $setting->website = $request->website;
+        $setting->address = $request->address;
+        $setting->currency_id = $request->currency_id;
+        $setting->timezone = $request->timezone;
+        $setting->locale = $request->locale;
+        $setting->week_start = $request->week_start;
 
         if ($oldCurrencyID != $newCurrencyID) {
             try {
@@ -74,21 +80,20 @@ class SuperAdminSettingsController extends SuperAdminBaseController
         }
 
         //        $setting->google_map_key = $request->input('google_map_key');
-        $setting->google_recaptcha_key = $request->input('google_recaptcha_key');
-        $setting->google_recaptcha_secret = $request->input('google_recaptcha_secret');
+        $setting->google_recaptcha_key = $request->google_recaptcha_key;
+        $setting->google_recaptcha_secret = $request->google_recaptcha_secret;
 
-        if ($request->hasFile('logo')) {
-            $setting->logo = $request->logo->hashName();
-            $request->logo->store('user-uploads/app-logo');
-        }
-        $setting->last_updated_by = $this->user->id;
-
-        if ($request->hasFile('login_background')) {
-            $request->login_background->storeAs('user-uploads', 'login-background.jpg');
-            $setting->login_background = 'login-background.jpg';
-        }
+//        if ($request->hasFile('logo')) {
+//            $setting->logo = $request->logo->hashName();
+//            $request->logo->store('user-uploads/app-logo');
+//        }
+//        $setting->last_updated_by = $this->user->id;
+//
+//        if ($request->hasFile('login_background')) {
+//            $request->login_background->storeAs('user-uploads', 'login-background.jpg');
+//            $setting->login_background = 'login-background.jpg';
+//        }
         $setting->save();
-
-        return Reply::redirect(route('super-admin.settings.index'));
+        return $request->successResponse($setting);
     }
 }

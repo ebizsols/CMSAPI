@@ -77,11 +77,15 @@ Route::group(
 
         //Email Setting
         Route::get('/EmailSetting', 'SuperAdminEmailSettingsController@index');
-
+        Route::post('/EmailSettingUpdate', 'SuperAdminEmailSettingsController@update');
+        
         //Push Notification Setting
         Route::get('/PushNotification', 'SuperAdminPushSettingsController@index');
         Route::post('/PushNotificationUpdate', 'SuperAdminPushSettingsController@update');
-
+        
+        //Language Setting
+        Route::get('/AllLanguages','SuperAdminLanguageSettingsController@index');
+     
     });
 
 

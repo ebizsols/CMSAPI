@@ -10,6 +10,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use App\Http\Requests\API\SuperAdmin\EmailSetting\EmailSettingRequest;
+use App\Http\Requests\API\SuperAdmin\EmailSetting\EmailSettingUpdateRequest;
 
 
 class SuperAdminEmailSettingsController extends SuperAdminBaseController
@@ -28,7 +29,7 @@ class SuperAdminEmailSettingsController extends SuperAdminBaseController
 //        return view('super-admin.email-settings.index', $this->data);
     }
 
-    public function update(UpdateSmtpSetting $request) {
+    public function update(EmailSettingUpdateRequest $request) {
         
          if($request->errors() != null){
             return $request->errors();
@@ -47,12 +48,17 @@ class SuperAdminEmailSettingsController extends SuperAdminBaseController
         session(['smtp_setting' => $smtp]);
 
         if ($smtp->mail_driver == 'mail') {
-            return Reply::success(__('messages.settingsUpdated'));
+            
+            return $request->successResponse($data, __('messages.settingsUpdated'));
+            
+            //return Reply::success(__('messages.settingsUpdated'));
         }
 
 
         if ($response['success']) {
-            return Reply::success($response['message']);
+            
+            return $request->successResponse($data, $response['message']);
+            //return Reply::success($response['message']);
         }
         // GMAIL SMTP ERROR
         $message = __('messages.smtpError').'<br><br> ';
@@ -63,9 +69,11 @@ class SuperAdminEmailSettingsController extends SuperAdminBaseController
             $message .= __('messages.smtpSecureEnabled');
             $message .= '<a  class="font-13" target="_blank" href="' . $secureUrl . '">' . $secureUrl . '</a>';
             $message .= '<hr>' . $response['message'];
-            return Reply::error($message);
+            return $request->errorResponse($message, $message);
+           // return Reply::error($message);
         }
-        return Reply::error($message . '<hr>' . $response['message']);
+        return $request->errorResponse($response['message'], $response['message']);
+        //return Reply::error($message . '<hr>' . $response['message']);
     }
 
     public function sendTestEmail(Request $request)
