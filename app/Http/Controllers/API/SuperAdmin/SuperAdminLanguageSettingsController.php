@@ -8,6 +8,11 @@ use App\Http\Requests\SuperAdmin\Language\UpdateRequest;
 use App\LanguageSetting;
 use Illuminate\Http\Request;
 use App\Http\Requests\API\SuperAdmin\LanguageSetting\AllLanguageRequest;
+use App\Http\Requests\API\SuperAdmin\LanguageSetting\AddEditLanguageRequest;
+use App\Http\Requests\API\SuperAdmin\LanguageSetting\UpdateLanguageRequest;
+use App\Http\Requests\API\SuperAdmin\LanguageSetting\DeleteLanguageRequest;
+use App\Http\Requests\API\SuperAdmin\LanguageSetting\StoreLanguageRequest;
+use App\Http\Requests\API\SuperAdmin\LanguageSetting\UpdateStatusLanguageRequest;
 
 class SuperAdminLanguageSettingsController extends SuperAdminBaseController
 {
@@ -23,16 +28,37 @@ class SuperAdminLanguageSettingsController extends SuperAdminBaseController
         $data['languages'] = LanguageSetting::all();
         return $request->successResponse($data);
     }
-    public function createEditData()
+    public function createEditData(AddEditLanguageRequest $request)
     {
-        
+        $data = array();
+
+        if($request->id > 0)
+        {
+            if($request->errors() != null )
+             {
+                return $request->errors() ;
+             }
+            $id = $request->id;
+             $data['languageSetting'] = LanguageSetting::findOrFail($id);
+        }
+        else
+        {
+
+            
+        }
+        return $request->successResponse($data);
     }
-    public function update(Request $request,$id){
-        $setting = LanguageSetting::findOrFail($request->id);
+    public function update(UpdateStatusLanguageRequest $request)
+    {
+        if($request->errors() != null){
+            return $request->errors();
+        }
+        
+        $id=$request->id;
+        $setting = LanguageSetting::findOrFail($id);
         $setting->status = $request->status;
         $setting->save();
-
-        return Reply::success(__('messages.settingsUpdated'));
+         return $request->successResponse($setting,__('messages.settingsUpdated'));
     }
 
     /**
@@ -40,63 +66,46 @@ class SuperAdminLanguageSettingsController extends SuperAdminBaseController
      * @param $id
      * @return array
      */
-    public function updateData(UpdateRequest $request, $id)
+    public function updateData(UpdateLanguageRequest $request)
     {
-        $setting = LanguageSetting::findOrFail($request->id);
+         if($request->errors() != null){
+            return $request->errors();
+        }
+        $id=$request->id;
+        $setting = LanguageSetting::findOrFail($id);
         $setting->language_name = $request->language_name;
         $setting->language_code = $request->language_code;
         $setting->status = $request->status;
         $setting->save();
-
         session(['language_setting' => \App\LanguageSetting::where('status', 'enabled')->get()]);
-
-        return Reply::redirect(route('super-admin.language-settings.index'), __('messages.languageUpdated'));
+        return $request->successResponse($setting);
     }
 
     /**
      * @param StoreRequest $request
      * @return array
      */
-    public function store(StoreRequest $request)
+    public function store(StoreLanguageRequest $request)
     {
+         if($request->errors() != null){
+            return $request->errors();
+        }
         $setting = new LanguageSetting();
         $setting->language_name = $request->language_name;
         $setting->language_code = $request->language_code;
         $setting->status = $request->status;
         $setting->save();
         session(['language_setting' => \App\LanguageSetting::where('status', 'enabled')->get()]);
-
-        return Reply::redirect(route('super-admin.language-settings.index'), __('messages.languageAdded'));
+        return $request->successResponse($setting,__('messages.languageAdded'));
     }
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function create(Request $request)
+    public function destroy(DeleteLanguageRequest $request)
     {
-        return view('super-admin.language-settings.create', $this->data);
-    }
-
-    /**
-     * @param Request $request
-     * @param $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function edit(Request $request, $id)
-    {
-        $this->languageSetting = LanguageSetting::findOrFail($id);
-
-        return view('super-admin.language-settings.edit', $this->data);
-    }
-
-    /**
-     * @param $id
-     * @return array
-     */
-    public function destroy($id)
-    {
+        if($request->errors() != null){
+            return $request->errors();
+        }
+        $id=$request->id;
+        $data=array();
         LanguageSetting::destroy($id);
-        return  Reply::success(__('messages.languageDeleted'));
+        return $request->successResponse($data, __('messages.languageDeleted'));
     }
 }

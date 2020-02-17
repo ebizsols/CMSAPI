@@ -89,6 +89,11 @@ Route::group(
 
         //Language Setting
         Route::get('/AllLanguages','SuperAdminLanguageSettingsController@index');
+        Route::post('/Language/AddEditLanguages','SuperAdminLanguageSettingsController@createEditData');
+        Route::post('/Language/UpdateLanguage','SuperAdminLanguageSettingsController@updateData');
+        Route::post('/Language/DeleteLanguage','SuperAdminLanguageSettingsController@destroy');
+        Route::post('/Language/SaveLanguage','SuperAdminLanguageSettingsController@store');
+        Route::post('/Language/UpdateStatusLanguage','SuperAdminLanguageSettingsController@update');
 
     });
 
