@@ -94,9 +94,6 @@ Route::group(
         Route::post('/Language/DeleteLanguage','SuperAdminLanguageSettingsController@destroy');
         Route::post('/Language/SaveLanguage','SuperAdminLanguageSettingsController@store');
         Route::post('/Language/UpdateStatusLanguage','SuperAdminLanguageSettingsController@update');
-         //Trial Setting
-        Route::get('/TrialSetting','SuperAdminPackageSettingController@index');
-        Route::post('/UpdateTrialSetting','SuperAdminPackageSettingController@update');
 
     });
 
