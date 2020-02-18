@@ -21,9 +21,8 @@ class UpdateStatusLanguageRequest extends SuperAdminBaseRequest
     public function rules()
     {
         return [
-           'id'=>'required',
+           'id'=>'required|exists:language_settings,id',
            'status'=>'required'
-           
         ];
     }
 

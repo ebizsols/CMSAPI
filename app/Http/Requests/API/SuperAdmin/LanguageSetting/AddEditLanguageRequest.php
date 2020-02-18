@@ -21,7 +21,7 @@ class AddEditLanguageRequest extends SuperAdminBaseRequest
     public function rules()
     {
         return [
-           'id' => 'required',
+           'id' => 'exists:language_settings,id',
         ];
     }
 
