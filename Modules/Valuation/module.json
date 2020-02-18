@@ -1,0 +1,13 @@
+{
+    "name": "Valuation",
+    "alias": "valuation",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\Valuation\\Providers\\ValuationServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
