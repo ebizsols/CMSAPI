@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\SuperAdmin;
+namespace App\Http\Controllers\API\SuperAdmin;
 
 use App\Company;
 use App\GlobalSetting;
@@ -11,7 +11,8 @@ use App\ModuleSetting;
 use App\Package;
 use App\PackageSetting;
 use Illuminate\Http\Request;
-
+use App\Http\Requests\API\SuperAdmin\TrialSetting\AllTrialSettingRequest;
+use App\Http\Requests\API\SuperAdmin\TrialSetting\UpdateTrialSettingRequest;
 class SuperAdminPackageSettingController extends SuperAdminBaseController
 {
     /**
@@ -28,15 +29,14 @@ class SuperAdminPackageSettingController extends SuperAdminBaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(AllTrialSettingRequest $request)
     {
-
-        $this->global = GlobalSetting::first();
-        $this->packageSetting = PackageSetting::first();
-        $this->package = Package::where('default', 'trial')->first();
-        $this->modules = Module::all();
-
-        return view('super-admin.package-settings.index', $this->data);
+        $data=array();
+        $data['global'] = GlobalSetting::first();
+        $data['packageSetting'] = PackageSetting::first();
+        $data['package'] = Package::where('default', 'trial')->first();
+        $data['modules'] = Module::all();
+        return $request->successResponse($data);
     }
 
     /**
@@ -44,8 +44,13 @@ class SuperAdminPackageSettingController extends SuperAdminBaseController
      * @param $id
      * @return array
      */
-    public function update(Request $request, $id)
+    public function update(UpdateTrialSettingRequest $request)
     {
+        if($request->errors() != null){
+            return $request->errors();
+        }
+        $id=$request->id;
+        $data=array();
         $setting = PackageSetting::findOrFail($id);
 
         $setting->no_of_days = $request->input('no_of_days');
@@ -53,7 +58,7 @@ class SuperAdminPackageSettingController extends SuperAdminBaseController
         $setting->modules = json_encode($request->module_in_package);
         $setting->notification_before = $request->notification_before;
         $setting->save();
-
+        $data['setting']=$setting;
         $package = Package::where('default', 'trial')->first();
         if($package){
             $package->module_in_package = $setting->modules;
@@ -61,6 +66,7 @@ class SuperAdminPackageSettingController extends SuperAdminBaseController
             $package->max_employees = $request->input('max_employees');
             $package->currency_id = $this->global->currency_id;
             $package->save();
+            $data['package']=$package;
         }
 
         if($request->has('module_in_package') && !is_null($package)){
@@ -98,8 +104,8 @@ class SuperAdminPackageSettingController extends SuperAdminBaseController
                 }
             }
         }
-
-        return Reply::success(__('messages.uploadSuccess'));
+        return $request->successResponse($data,__('messages.uploadSuccess'));
+//        return Reply::success(__('messages.uploadSuccess'));
 
     }
 }
