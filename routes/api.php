@@ -94,7 +94,23 @@ Route::group(
         Route::post('/Language/DeleteLanguage','SuperAdminLanguageSettingsController@destroy');
         Route::post('/Language/SaveLanguage','SuperAdminLanguageSettingsController@store');
         Route::post('/Language/UpdateStatusLanguage','SuperAdminLanguageSettingsController@update');
-
+        
+         //Trial Setting
+        Route::get('/TrialSetting','SuperAdminPackageSettingController@index');
+        Route::post('/UpdateTrialSetting','SuperAdminPackageSettingController@update');
+        //Front Setting
+        Route::get('/FrontSetting','SuperAdminFrontSettingController@index');
+        Route::post('/UpdateFrontSetting','SuperAdminFrontSettingController@update');
+        Route::get('/Front/FeactureImages','SuperAdminFeatureSettingController@index');
+        Route::post('/Front/AddEditFeactureImages','SuperAdminFeatureSettingController@addEdit');
+        Route::delete('/Front/DeleteFeactureImages','SuperAdminFeatureSettingController@destroy');
+        Route::post('/Front/AddFeactureImages','SuperAdminFeatureSettingController@store');
+        Route::post('/Front/UpdateFeactureImages','SuperAdminFeatureSettingController@update');
+        Route::get('/Front/AllFooter','SuperAdminFooterSettingController@index');
+        Route::post('/Front/AddEditFooter','SuperAdminFooterSettingController@addEdit');
+        Route::delete('/Front/DeleteFooterMenu','SuperAdminFooterSettingController@destroy');
+        Route::post('/Front/AddFooterMenu','SuperAdminFooterSettingController@store');
+        Route::post('/Front/UpdateFooterMenu','SuperAdminFooterSettingController@update');
     });
 
 
